@@ -6,16 +6,15 @@ public class ReceptionistDashboard {
     JFrame frame;
 
     static ArrayList<RepairJob> jobs = new ArrayList<>();
-    static ArrayList<Employee> employees = new ArrayList<>();
+    static ArrayList<Employee> employees = Storage.loadEmployees();
+    // ✅ CORRECT PLACE FOR STATIC BLOCK
+    static {
+        employees.add(new Employee(1, "Brian", "TECHNICIAN", "1234"));
+        employees.add(new Employee(2, "Sarah", "TECHNICIAN", "1234"));
+        employees.add(new Employee(3, "Alice", "RECEPTIONIST", "admin"));
+    }
 
     public ReceptionistDashboard() {
-
-        // sample employees
-        if (employees.isEmpty()) {
-            employees.add(new Employee(1, "Brian", "TECHNICIAN"));
-            employees.add(new Employee(2, "Sarah", "TECHNICIAN"));
-            employees.add(new Employee(3, "Alice", "RECEPTIONIST"));
-        }
 
         frame = new JFrame("Receptionist Dashboard");
 
@@ -47,25 +46,10 @@ public class ReceptionistDashboard {
                     jobs.size() + 1001,
                     customer,
                     printer,
-                    "Created"
+                    "Available"
             );
 
             jobs.add(job);
-
-            // auto-assign technician
-            for (Employee emp : employees) {
-                if (emp.role.equals("TECHNICIAN") && emp.available) {
-
-                    job.assignTechnician(
-                            new Technician(emp.employeeId, emp.name, true)
-                    );
-
-                    job.startRepair();
-                    emp.setAvailable(false);
-
-                    break;
-                }
-            }
 
             JOptionPane.showMessageDialog(frame,
                     "Job Created Successfully!\nJob ID: " + job.jobId);
