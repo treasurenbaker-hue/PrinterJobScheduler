@@ -25,46 +25,21 @@ public class MainMenu {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
-        // TECHNICIAN LOGIN
-        technicianBtn.addActionListener(e -> {
-
-            String name = JOptionPane.showInputDialog("Enter Name");
-            String password = JOptionPane.showInputDialog("Enter Password");
-
-            for (Employee emp : ReceptionistDashboard.employees) {
-
-                System.out.println(emp.name + " " + emp.password + " " + emp.role);
-
-                if (emp.name.equalsIgnoreCase(name)
-                        && emp.password.trim().equals(password.trim())
-                        && emp.role.equalsIgnoreCase("TECHNICIAN")) {
-
-                    Session.currentUser = emp;
-                    new TechnicianDashboard();
-                    return;
-                }
-            }
-
-            JOptionPane.showMessageDialog(null, "Invalid login");
+        // RECEPTIONIST
+        receptionistBtn.addActionListener(e -> {
+            new ReceptionistDashboard();
         });
 
-        // ADMIN LOGIN (no login yet, just open)
+        // TECHNICIAN
+        technicianBtn.addActionListener(e -> {
+            new TechnicianDashboard();
+        });
+
+        // ADMIN (NO LOGIN)
         adminBtn.addActionListener(e -> {
-
-    String password = JOptionPane.showInputDialog("Enter Admin Password");
-
-    for (Employee emp : ReceptionistDashboard.employees) {
-
-        if (emp.role.equalsIgnoreCase("RECEPTIONIST")
-                && emp.password.equals(password)) {
-
-            Session.currentUser = emp;
             new AdminDashboard();
-            return;
-        }
-    }
+        });
 
-    JOptionPane.showMessageDialog(null, "Invalid Admin Password");
-});
-	}
-}
+    } // ✅ constructor ends here
+
+} // ✅ class ends here

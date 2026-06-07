@@ -6,20 +6,23 @@ public class ReceptionistDashboard {
     JFrame frame;
 
     static ArrayList<RepairJob> jobs = new ArrayList<>();
-    static ArrayList<Employee> employees = Storage.loadEmployees();
-    // ✅ CORRECT PLACE FOR STATIC BLOCK
+    static ArrayList<Employee> employees = new ArrayList<>();
+
+    // ✅ ONLY ONE INITIALIZATION BLOCK (CORRECT)
     static {
         employees.add(new Employee(1, "Brian", "TECHNICIAN", "1234"));
         employees.add(new Employee(2, "Sarah", "TECHNICIAN", "1234"));
-        employees.add(new Employee(3, "Alice", "RECEPTIONIST", "admin"));
+        employees.add(new Employee(3, "Alice", "ADMIN", "admin"));
     }
 
     public ReceptionistDashboard() {
 
+        System.out.println("Receptionist Dashboard OPENED");
+
         frame = new JFrame("Receptionist Dashboard");
 
         JButton addJobBtn = new JButton("Add Repair Job");
-        JButton viewJobsBtn = new JButton("View Assigned Jobs");
+        JButton viewJobsBtn = new JButton("View Jobs");
 
         addJobBtn.setBounds(50, 50, 200, 40);
         viewJobsBtn.setBounds(50, 110, 200, 40);
@@ -31,16 +34,18 @@ public class ReceptionistDashboard {
         frame.setLayout(null);
         frame.setVisible(true);
 
+        // ======================
         // ADD JOB
-        addJobBtn.addActionListener(event -> {
+        // ======================
+        addJobBtn.addActionListener(e -> {
 
             String customerName = JOptionPane.showInputDialog("Customer Name:");
-            String phone = JOptionPane.showInputDialog("Customer Phone:");
-            String printerModel = JOptionPane.showInputDialog("Printer Model:");
-            String fault = JOptionPane.showInputDialog("Fault Description:");
+            String phone = JOptionPane.showInputDialog("Phone:");
+            String model = JOptionPane.showInputDialog("Printer Model:");
+            String fault = JOptionPane.showInputDialog("Fault:");
 
             Customer customer = new Customer(jobs.size() + 1, customerName, phone);
-            Printer printer = new Printer(jobs.size() + 100, printerModel, fault);
+            Printer printer = new Printer(jobs.size() + 100, model, fault);
 
             RepairJob job = new RepairJob(
                     jobs.size() + 1001,
@@ -52,11 +57,13 @@ public class ReceptionistDashboard {
             jobs.add(job);
 
             JOptionPane.showMessageDialog(frame,
-                    "Job Created Successfully!\nJob ID: " + job.jobId);
+                    "Job Created: " + job.jobId);
         });
 
+        // ======================
         // VIEW JOBS
-        viewJobsBtn.addActionListener(event -> {
+        // ======================
+        viewJobsBtn.addActionListener(e -> {
 
             StringBuilder sb = new StringBuilder();
 
@@ -69,7 +76,7 @@ public class ReceptionistDashboard {
                         .append("\nStatus: ").append(job.status)
                         .append("\nTechnician: ")
                         .append(job.technician != null ? job.technician.name : "None")
-                        .append("\n--------------------\n");
+                        .append("\n-------------------\n");
             }
 
             JOptionPane.showMessageDialog(frame, sb.toString());

@@ -3,7 +3,7 @@ public class Employee {
     int employeeId;
     String name;
     String role;
-    String password;   // NEW
+    String password;
     boolean available;
 
     public Employee(int employeeId, String name, String role, String password) {
